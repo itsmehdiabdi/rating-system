@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-sg2=#bmnnl+pi6trkhrl##08a+b4mudgu=p=-i7)7(gb@)%=un
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
 
 
 # Application definition
@@ -79,12 +79,11 @@ WSGI_APPLICATION = "bp.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'bp'),
-        'USER': os.environ.get('DB_USER', 'bp_user'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', '1234'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '6432'),
-        'CONN_MAX_AGE': 600,
+        'NAME': os.environ.get('DB_NAME', 'django_db'),
+        'USER': os.environ.get('DB_USER', 'postgres'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'postgres123'),
+        'HOST': os.environ.get('DB_HOST', 'db'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
@@ -123,7 +122,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
