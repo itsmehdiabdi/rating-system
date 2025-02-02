@@ -10,20 +10,19 @@
             <p class="mb-1">{{ post.content|truncatewords:20 }}</p>
           </a>
           {% if user.is_authenticated %}
-            <div class="ml-3">
-              <form class="rating-form" data-post-id="{{ post.pk }}">
-                {% csrf_token %}
-                <select name="rating" class="form-control">
-                  <option value="">Rate</option>
-                  <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
-              </form>
-            </div>
+            <form class="rating-form d-flex align-items-center" data-post-id="{{ post.pk }}">
+              {% csrf_token %}
+              <select name="rating" class="form-control mr-2">
+                <option value="">Rate</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+              <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+            </form>
           {% endif %}
         </div>
         <small class="rating-info-{{ post.pk }}">
