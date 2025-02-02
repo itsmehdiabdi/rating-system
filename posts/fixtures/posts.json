@@ -1,0 +1,32 @@
+[
+  {
+    "model": "posts.post",
+    "pk": 1,
+    "fields": {
+      "title": "Getting Started with Django",
+      "content": "Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design...",
+      "rating_count": 0,
+      "rating_sum": 0
+    }
+  },
+  {
+    "model": "posts.post",
+    "pk": 2,
+    "fields": {
+      "title": "Python Best Practices",
+      "content": "Writing clean and maintainable Python code is essential for any project's long-term success...",
+      "rating_count": 0,
+      "rating_sum": 0
+    }
+  },
+  {
+    "model": "posts.post",
+    "pk": 3,
+    "fields": {
+      "title": "Understanding Database Relations",
+      "content": "Database relationships are essential concepts in designing efficient and scalable applications...",
+      "rating_count": 0,
+      "rating_sum": 0
+    }
+  }
+] 

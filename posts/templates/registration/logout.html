@@ -1,0 +1,10 @@
+<!-- posts/templates/registration/logged_out.html -->
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <h2>You have been logged out.</h2>
+  <p>
+    <a href="{% url 'login' %}">Log in again</a> or go to the
+    <a href="{% url 'post-list' %}">homepage</a>.
+  </p>
+</div>
+{% endblock %}
