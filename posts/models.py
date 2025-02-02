@@ -21,8 +21,9 @@ class Rating(models.Model):
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name='ratings')
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE, related_name='ratings')
-    rating = models.PositiveSmallIntegerField()  # rating value from 0 to 5
+                             on_delete=models.CASCADE, related_name='ratings',
+                             db_index=True)
+    rating = models.PositiveSmallIntegerField()
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
