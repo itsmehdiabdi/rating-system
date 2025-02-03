@@ -7,9 +7,6 @@ python manage.py runserver
 ```
 for docker setup:
 ```
-mkdir postgres_data
-sudo chown -R $USER:$USER postgres_data
-sudo chmod -R 755 postgres_data
 docker compose up --build
 ```
 
