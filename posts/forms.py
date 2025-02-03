@@ -7,5 +7,6 @@ class RatingForm(forms.Form):
         min_value=0,
         max_value=5,
         widget=forms.NumberInput(
-            attrs={'class': 'form-control', 'placeholder': 'Enter rating (0-5)'})
+            attrs={"class": "form-control", "placeholder": "Enter rating (0-5)"}
+        ),
     )

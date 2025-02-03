@@ -1,7 +1,8 @@
 import itertools
-import threading
-from locust import HttpUser, TaskSet, task, between
 import random
+import threading
+
+from locust import HttpUser, TaskSet, between, task
 
 POST_COUNT = 3
 MAX_RATING = 5
@@ -37,7 +38,8 @@ class RateTaskSet(TaskSet):
         }
         headers = {"Referer": self.client.base_url + "/accounts/login/"}
         response = self.client.post(
-            "/accounts/login/", data=login_data, headers=headers)
+            "/accounts/login/", data=login_data, headers=headers
+        )
         if response.status_code != 200:
             print(f"Login failed for {self.username}: {response.text}")
 
@@ -46,12 +48,13 @@ class RateTaskSet(TaskSet):
         csrf_token = self.get_csrf_token()
         headers = {
             "X-CSRFToken": csrf_token,
-            "Referer": self.client.base_url + "/api/posts/1/rate/"
+            "Referer": self.client.base_url + "/api/posts/1/rate/",
         }
         post_id = random.randint(1, POST_COUNT)
         rating = random.randint(0, MAX_RATING)
         self.client.post(
-            f"/api/posts/{post_id}/rate/", json={"rating": rating}, headers=headers)
+            f"/api/posts/{post_id}/rate/", json={"rating": rating}, headers=headers
+        )
 
 
 class WebsiteUser(HttpUser):

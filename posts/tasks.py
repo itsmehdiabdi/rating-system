@@ -1,4 +1,5 @@
 from celery import shared_task
+
 from posts.models import Post
 
 
@@ -15,8 +16,9 @@ def update_smoothed_ratings():
             post.smoothed_rating = average_rating
         else:
             # Update using the exponential moving average formula.
-            post.smoothed_rating = alpha * average_rating + \
-                (1 - alpha) * float(post.smoothed_rating)
-        post.save(update_fields=['smoothed_rating'])
+            post.smoothed_rating = alpha * average_rating + (1 - alpha) * float(
+                post.smoothed_rating
+            )
+        post.save(update_fields=["smoothed_rating"])
 
     return "Smoothed ratings updated successfully."

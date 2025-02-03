@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from .models import Post
 
 
@@ -13,8 +14,15 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'content', 'rating_count',
-                  'average_rating', 'user_rating', 'smoothed_rating']
+        fields = [
+            "id",
+            "title",
+            "content",
+            "rating_count",
+            "average_rating",
+            "user_rating",
+            "smoothed_rating",
+        ]
 
     def get_average_rating(self, obj):
         if obj.rating_count:
@@ -22,7 +30,7 @@ class PostSerializer(serializers.ModelSerializer):
         return None
 
     def get_user_rating(self, obj):
-        request = self.context.get('request')
+        request = self.context.get("request")
         if request and request.user.is_authenticated:
             # Try to get the rating given by the current user for this post.
             rating_obj = obj.ratings.filter(user=request.user).first()
