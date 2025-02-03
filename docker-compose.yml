@@ -18,8 +18,11 @@ services:
       - DB_PASSWORD=postgres123
       - DB_NAME=django_db
       - DJANGO_ALLOWED_HOSTS=*
+      - CELERY_BROKER_URL=redis://redis:6379/0
     depends_on:
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
 
   db:
@@ -39,24 +42,45 @@ services:
       POSTGRES_RANDOM_PAGE_COST: "1.1"
       POSTGRES_EFFECTIVE_IO_CONCURRENCY: "200"
     command: >
-      postgres
-      -c max_connections=100
-      -c shared_buffers=256MB
-      -c work_mem=16MB
-      -c maintenance_work_mem=128MB
-      -c effective_cache_size=1GB
-      -c random_page_cost=1.1
-      -c effective_io_concurrency=200
-      -c synchronous_commit=off
+      postgres -c max_connections=100 -c shared_buffers=256MB -c work_mem=16MB -c maintenance_work_mem=128MB -c effective_cache_size=1GB -c random_page_cost=1.1 -c effective_io_concurrency=200 -c synchronous_commit=off
     ports:
       - "5433:5432"
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
       retries: 5
       timeout: 5s
 
-volumes:
-  postgres_data:
+  redis:
+    image: redis:7
+    container_name: redis_broker
+    restart: always
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      retries: 3
+
+  celery:
+    build: .
+    container_name: celery_worker
+    restart: always
+    command: celery -A bp worker --loglevel=info
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DEBUG=False
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres123
+      - DB_NAME=django_db
+      - CELERY_BROKER_URL=redis://redis:6379/0
+
+  celery-beat:
+    build: .
+    container_name: celery_beat
+    restart: always
+    command: celery -A bp beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler

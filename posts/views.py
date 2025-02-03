@@ -63,8 +63,7 @@ class PostRatingAPIView(generics.GenericAPIView):
                     rating_obj.rating = new_rating_value
                     rating_obj.save(update_fields=['rating', 'updated_at'])
                     # Adjust the aggregated sum without changing the count
-                    post.rating_sum = F('rating_sum') - \
-                        old_rating + new_rating_value
+                    post.rating_sum = F('rating_sum') + new_rating_value - old_rating
                     post.save(update_fields=['rating_sum'])
                 # If the rating is the same, no action is needed.
             else:
@@ -123,7 +122,7 @@ def rate_post(request, pk):
                                 rating_obj.rating = rating_value
                                 rating_obj.save(update_fields=["rating"])
                                 post.rating_sum = F(
-                                    'rating_sum') - old_rating + rating_value
+                                    'rating_sum') + rating_value - old_rating
                                 post.save(update_fields=["rating_sum"])
                         else:
                             post.rating_count = F('rating_count') + 1

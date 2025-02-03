@@ -27,3 +27,5 @@ locust --worker &
 locust --master --expect-workers=4
 ```
 
+## periodic task
+You must add periodic task using django admin

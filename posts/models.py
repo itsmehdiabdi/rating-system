@@ -8,6 +8,7 @@ class Post(models.Model):
     content = models.TextField()
     rating_count = models.PositiveIntegerField(default=0)
     rating_sum = models.PositiveIntegerField(default=0)
+    smoothed_rating = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
     @property
     def average_rating(self):

@@ -27,7 +27,7 @@
         </div>
         <small class="rating-info-{{ post.pk }}">
           Rating count: <span class="rating-count">{{ post.rating_count }}</span> | 
-          Average Rating: <span class="average-rating">{% if post.average_rating %}{{ post.average_rating|floatformat:1 }}{% else %}N/A{% endif %}</span>
+          Average Rating: <span class="average-rating">{% if post.smoothed_rating %}{{ post.smoothed_rating|floatformat:1 }}{% else %}N/A{% endif %}</span>
         </small>
       </div>
     {% endfor %}
@@ -62,7 +62,7 @@
               const ratingInfo = document.querySelector(`.rating-info-${postId}`);
               ratingInfo.querySelector('.rating-count').textContent = post.rating_count;
               ratingInfo.querySelector('.average-rating').textContent = 
-                post.average_rating ? post.average_rating.toFixed(1) : 'N/A';
+                post.smoothed_rating ? post.smoothed_rating.toFixed(1) : 'N/A';
             } else {
               const data = await response.json();
               alert('Error saving rating: ' + data.detail);

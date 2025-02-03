@@ -3,3 +3,7 @@ django-rest-framework
 locust
 psycopg2-binary
 gunicorn
+celery
+django-celery-beat
+redis
+whitenoise

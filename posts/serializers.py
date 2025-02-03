@@ -9,11 +9,12 @@ class PostSerializer(serializers.ModelSerializer):
     rating_count = serializers.IntegerField(read_only=True)
     # Include the rating given by the current user (if any)
     user_rating = serializers.SerializerMethodField()
+    smoothed_rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
         fields = ['id', 'title', 'content', 'rating_count',
-                  'average_rating', 'user_rating']
+                  'average_rating', 'user_rating', 'smoothed_rating']
 
     def get_average_rating(self, obj):
         if obj.rating_count:
