@@ -93,6 +93,21 @@ def signup(request):
 def post_list(request):
     """Render a page that lists all posts."""
     posts = Post.objects.all()
+    
+    # If user is authenticated, annotate posts with user ratings
+    if request.user.is_authenticated:
+        from django.db.models import OuterRef, Subquery
+        from .models import Rating
+        
+        user_ratings = Rating.objects.filter(
+            post=OuterRef('pk'),
+            user=request.user
+        ).values('rating')[:1]
+        
+        posts = posts.annotate(
+            user_rating=Subquery(user_ratings)
+        )
+    
     return render(request, "posts/post_list.html", {"posts": posts})
 
 

@@ -30,6 +30,9 @@ class PostSerializer(serializers.ModelSerializer):
                 return rating_obj.rating
         return None
 
+    def get_smoothed_rating(self, obj):
+        return obj.smoothed_rating
+
 
 class RatingSerializer(serializers.Serializer):
     rating = serializers.IntegerField(min_value=0, max_value=5)

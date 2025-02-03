@@ -28,6 +28,9 @@
         <small class="rating-info-{{ post.pk }}">
           Rating count: <span class="rating-count">{{ post.rating_count }}</span> | 
           Average Rating: <span class="average-rating">{% if post.smoothed_rating %}{{ post.smoothed_rating|floatformat:1 }}{% else %}N/A{% endif %}</span>
+          {% if user.is_authenticated and post.user_rating is not None %}
+            | Your Rating: <span class="user-rating">{{ post.user_rating }}</span>
+          {% endif %}
         </small>
       </div>
     {% endfor %}
